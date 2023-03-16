@@ -11,7 +11,6 @@ bot.on('message', (msg) => {
     console.log(msg)
   const chatId = msg.chat.id;
   if(msg.text==='Hola') {
-    //bot.sendMessage(chatId,'No me importa lo que digas, te amo!')
+    bot.sendMessage(chatId,'No me importa lo que digas, te amo!')
   }
-  bot.sendMessage(chatId,'No me importa lo que digas, te amo!')
 });

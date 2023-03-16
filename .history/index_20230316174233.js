@@ -10,8 +10,9 @@ const bot = new TelegramBot(token, { polling: true });
 bot.on('message', (msg) => {
     console.log(msg)
   const chatId = msg.chat.id;
-  if(msg.text==='Hola') {
-    //bot.sendMessage(chatId,'No me importa lo que digas, te amo!')
+  if(msg==='Hola') {
+    bot.sendMessage(chatId,'vERGA SI FUNCIONA!!')
   }
-  bot.sendMessage(chatId,'No me importa lo que digas, te amo!')
+  // envía un mensaje de respuesta
+  bot.sendMessage(chatId, 'Hola, soy un bot de Telegram!');
 });
