@@ -207,12 +207,16 @@ bot.on('callback_query', (query) => {
         let TD= 0;
         let TN=0;
         let productos=[];
+        let operadores=[];
         respuestaFiltrada=respuestaFiltrada.filter((elemento)=>elemento['id_maqempaque2']==maquina && elemento['DIAMES']==dia  && elemento['MES']==mes && elemento['Año']==year && elemento['calidad']==1 )
     //    console.log(respuestaFiltrada)
     //    console.log(maquina)
         respuestaFiltrada.forEach(element => {
             if(!productos.includes(element['VFL_COD'])){
                 productos.push(element['VFL_COD'])
+            }
+            if(!operadores.includes(element['operador'].toLowerCase())){
+                operadores.push(element['operador'].toLowerCase())
             }
         if(element['Turnos']=='T1'){
             T1=T1+element['peso_bovina'];
@@ -243,12 +247,16 @@ bot.on('callback_query', (query) => {
         TOTAL E1: ${Math.round(e1)} KG
         ------------------------------
         Productos involucrados: ${productos}
+        ------------------------------
+        Operadores involucrados: ${operadores}
         `);
+
        // console.log({maquina,mes,dia,year})
 
     }
     if (data === '3') {
         let productos=[];
+        let operadores=[];
         let respuestaFiltrada =resultado;
         let e3=0
         let T1=0;
@@ -260,6 +268,9 @@ bot.on('callback_query', (query) => {
         respuestaFiltrada.forEach(element => {
             if(!productos.includes(element['VFL_COD'])){
                 productos.push(element['VFL_COD'])
+            }
+            if(!operadores.includes(element['operador'].toLowerCase())){
+                operadores.push(element['operador'].toLowerCase())
             }
             if(element['Turnos']=='T1'){
                 T1=T1+element['peso_bovina'];
@@ -290,6 +301,8 @@ bot.on('callback_query', (query) => {
             TOTAL DESP: ${Math.round(e3)} KG
             --------------------------------
             Productos involucrados: ${productos}
+            ------------------------------
+            Operadores involucrados: ${operadores}
 
             PD: Este desperdicio es netamente del proceso de extrusion, sin ajustes por consumo.
             `);
