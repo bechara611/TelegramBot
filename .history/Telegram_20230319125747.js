@@ -72,7 +72,10 @@ try {
     };
     
     bot.onText(/\/start/,async (msg) => {
-        bot.sendMessage(msg.chat.id, `Iniciando, por favor espere...`);
+        bot.sendMessage(msg.chat.id, `Iniciando, por favor espere...`,{
+            parse_mode: 'Markdown'
+        });
+        bot.sendSticker(msg.chat.id,)
         resultado=null;
         resultado = await leerArchivoExcel('./VFL QUERY SQL 2.xlsm');
         bot.sendMessage(msg.chat.id, 'Bienvenido al menú', menuMarkup);
