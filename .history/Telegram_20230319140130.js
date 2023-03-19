@@ -152,7 +152,6 @@ try {
     
     
         }
-        bot.deleteMessage(chatId, query.message.message_id )
     })
     bot.on('message', (msg) => {
         //? comprobar que si sea fecha lo que coloques
@@ -257,7 +256,7 @@ try {
             `);
     
            // console.log({maquina,mes,dia,year})
-           
+           bot.deleteMessage(chatId, query.message.message_id )
         }
         if (data === '3') {
             let productos=[];
@@ -312,7 +311,7 @@ try {
                 PD: Este desperdicio es netamente del proceso de extrusion, sin ajustes por consumo.
                 `);
            // console.log({maquina,mes,dia,year})
-          
+           bot.deleteMessage(chatId, query.message.message_id )
         }
     })
         

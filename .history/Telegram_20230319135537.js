@@ -147,12 +147,11 @@ try {
         if (data === 'stop') {
     
             // Ejecuta la acción que deseas realizar cuando el usuario hace clic en "Ejecutar acción"
-            bot.deleteMessage(chatId, query.message.message_id )
+            bot.deleteMessage(chatId, menuMarkup)
             bot.sendMessage(chatId, `Hasta luego, para volver a activar una consulta, escriba /start`);
     
     
         }
-        bot.deleteMessage(chatId, query.message.message_id )
     })
     bot.on('message', (msg) => {
         //? comprobar que si sea fecha lo que coloques
@@ -257,7 +256,7 @@ try {
             `);
     
            // console.log({maquina,mes,dia,year})
-           
+           bot.deleteMessage(chatId, query)
         }
         if (data === '3') {
             let productos=[];
@@ -312,7 +311,7 @@ try {
                 PD: Este desperdicio es netamente del proceso de extrusion, sin ajustes por consumo.
                 `);
            // console.log({maquina,mes,dia,year})
-          
+    
         }
     })
         
