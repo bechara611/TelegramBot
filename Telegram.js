@@ -155,12 +155,12 @@ bot.on('message', (msg) => {
     dia = fecha[0]
     mes = fecha[1]
     year = fecha[2]
-    if (isNaN(dia) === true || isNaN(mes) === true || isNaN(year) === true || dia>31 || mes>12) {
+    if (isNaN(dia) === true || isNaN(mes) === true || isNaN(year) === true || dia>31 || mes>12 || year<2018) {
 
         dia = null
         mes = null
         year = null;
-        if (pulso === true) {
+        if (pulso === true && maquina && msg.text!=='/start' && msg.text.toUpperCase()!=='/START') {
             bot.sendMessage(msg.chat.id, `Tu fecha seleccionada es incorrecta, 
             por favor, vuelva a escribir la fecha en formato de dd-mm-yyyy`)
             return
