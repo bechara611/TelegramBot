@@ -28,12 +28,6 @@ try {
     const MENUMAQ = [
         [
             {
-                text: 'RESUMEN GENERAL E1',
-                callback_data: 'TODAS',
-            },
-        ],
-        [
-            {
                 text: 'RH1',
                 callback_data: 'RH1',
             },
@@ -74,7 +68,12 @@ try {
                 callback_data: 'REPESAR',
             },
         ],
-        
+        [
+            {
+                text: 'RESUMEN GENERAL E1',
+                callback_data: 'TODAS',
+            },
+        ],
         [
             {
                 text: 'CANCEL',
@@ -337,11 +336,10 @@ try {
 
         if (data === '1' && maquina === 'TODAS') {
 
-           // let respuestaFiltrada = resultado;
+            let respuestaFiltrada = resultado;
         
 
             maquinas.forEach(maquinita => {
-                let respuestaFiltrada = resultado;
                 let e1 = 0
                 let T1 = 0;
                 let T2 = 0;

@@ -28,12 +28,6 @@ try {
     const MENUMAQ = [
         [
             {
-                text: 'RESUMEN GENERAL E1',
-                callback_data: 'TODAS',
-            },
-        ],
-        [
-            {
                 text: 'RH1',
                 callback_data: 'RH1',
             },
@@ -74,7 +68,12 @@ try {
                 callback_data: 'REPESAR',
             },
         ],
-        
+        [
+            {
+                text: 'RESUMEN GENERAL',
+                callback_data: 'TODAS',
+            },
+        ],
         [
             {
                 text: 'CANCEL',
@@ -337,19 +336,17 @@ try {
 
         if (data === '1' && maquina === 'TODAS') {
 
-           // let respuestaFiltrada = resultado;
-        
+            let respuestaFiltrada = resultado;
+            let e1 = 0
+            let T1 = 0;
+            let T2 = 0;
+            let T3 = 0;
+            let TD = 0;
+            let TN = 0;
+            let productos = [];
+            let operadores = [];
 
             maquinas.forEach(maquinita => {
-                let respuestaFiltrada = resultado;
-                let e1 = 0
-                let T1 = 0;
-                let T2 = 0;
-                let T3 = 0;
-                let TD = 0;
-                let TN = 0;
-                let productos = [];
-                let operadores = [];
                 respuestaFiltrada = respuestaFiltrada.filter((elemento) => elemento['id_maqempaque2'] == maquinita && elemento['DIAMES'] == dia && elemento['MES'] == mes && elemento['Año'] == year && elemento['calidad'] == 1)
                 //    console.log(respuestaFiltrada)
                 //    console.log(maquina)

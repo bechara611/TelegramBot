@@ -28,12 +28,6 @@ try {
     const MENUMAQ = [
         [
             {
-                text: 'RESUMEN GENERAL E1',
-                callback_data: 'TODAS',
-            },
-        ],
-        [
-            {
                 text: 'RH1',
                 callback_data: 'RH1',
             },
@@ -74,7 +68,12 @@ try {
                 callback_data: 'REPESAR',
             },
         ],
-        
+        [
+            {
+                text: 'RESUMEN GENERAL E1',
+                callback_data: 'TODAS',
+            },
+        ],
         [
             {
                 text: 'CANCEL',
