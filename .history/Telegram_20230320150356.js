@@ -175,13 +175,17 @@ try {
         if (maquina && fecha.length === 3 && dia && mes && year && dia<=31 && mes<=12) {
     
            // bot.sendMessage(msg.chat.id, `Tu fecha seleccionada es ${msg.text} para la maquina ${maquina} por favor espere...`)
-            bot.sendMessage(msg.chat.id, '<----------->', {
+            bot.sendMessage(msg.chat.id, 'Elija una opción:', {
                 reply_markup: {
                   inline_keyboard: [
                     [
                       {
-                        text: 'Generar reporte ',
+                        text: 'Calidad 1',
                         callback_data: '1'
+                      },
+                      {
+                        text: 'Desperdicio',
+                        callback_data: '3'
                       }
                     ]
                   ]
@@ -307,61 +311,61 @@ try {
                `);
           // console.log({maquina,mes,dia,year})
         }
-        // if (data === '3') {
-        //     let productos=[];
-        //     let operadores=[];
-        //     let respuestaFiltrada =resultado;
-        //     let e3=0
-        //     let T1=0;
-        //     let T2=0;
-        //     let T3=0;
-        //     let TD= 0;
-        //     let TN=0;
-        //     respuestaFiltrada=respuestaFiltrada.filter((elemento)=>elemento['id_maqempaque2']==maquina && elemento['DIAMES']==dia  && elemento['MES']==mes && elemento['Año']==year  && elemento['calidad']!=1  )
-        //     respuestaFiltrada.forEach(element => {
-        //         if(!productos.includes(element['VFL_COD'])){
-        //             productos.push(element['VFL_COD'])
-        //         }
-        //         if(!operadores.includes(element['operador'].toLowerCase())){
-        //             operadores.push(element['operador'].toLowerCase())
-        //         }
-        //         if(element['Turnos']=='T1'){
-        //             T1=T1+element['peso_bovina'];
-        //         }
-        //         if(element['Turnos']=='T2'){
-        //             T2=T2+element['peso_bovina'];
-        //         }
-        //         if(element['Turnos']=='T3'){
-        //             T3=T3+element['peso_bovina'];
-        //         }
-        //         if(element['Turnos']=='TD'){
-        //             TD=TD+element['peso_bovina'];
-        //         }
-        //         if(element['Turnos']=='TN'){
-        //             TN=TN+element['peso_bovina'];
-        //         }
-        //     //?TOTAL
-        //     e3=e3+element['peso_bovina'];
-        //     });
-        //     //let respuestaString = JSON.stringify(resultado)
-        //     bot.sendMessage(chatId,
-        //         `-----------${maquina}-----------${dia}/${mes}/${year}-------
-        //         T1: ${Math.round(T1)} KG
-        //         T2: ${Math.round(T2)} KG
-        //         T3: ${Math.round(T3)} KG
-        //         TD: ${Math.round(TD)} KG
-        //         TN: ${Math.round(TN)} KG
-        //         TOTAL DESP: ${Math.round(e3)} KG
-        //         --------------------------------
-        //         Productos involucrados: ${productos}
-        //         ------------------------------
-        //         Operadores involucrados: ${operadores}
+        if (data === '3') {
+            let productos=[];
+            let operadores=[];
+            let respuestaFiltrada =resultado;
+            let e3=0
+            let T1=0;
+            let T2=0;
+            let T3=0;
+            let TD= 0;
+            let TN=0;
+            respuestaFiltrada=respuestaFiltrada.filter((elemento)=>elemento['id_maqempaque2']==maquina && elemento['DIAMES']==dia  && elemento['MES']==mes && elemento['Año']==year  && elemento['calidad']!=1  )
+            respuestaFiltrada.forEach(element => {
+                if(!productos.includes(element['VFL_COD'])){
+                    productos.push(element['VFL_COD'])
+                }
+                if(!operadores.includes(element['operador'].toLowerCase())){
+                    operadores.push(element['operador'].toLowerCase())
+                }
+                if(element['Turnos']=='T1'){
+                    T1=T1+element['peso_bovina'];
+                }
+                if(element['Turnos']=='T2'){
+                    T2=T2+element['peso_bovina'];
+                }
+                if(element['Turnos']=='T3'){
+                    T3=T3+element['peso_bovina'];
+                }
+                if(element['Turnos']=='TD'){
+                    TD=TD+element['peso_bovina'];
+                }
+                if(element['Turnos']=='TN'){
+                    TN=TN+element['peso_bovina'];
+                }
+            //?TOTAL
+            e3=e3+element['peso_bovina'];
+            });
+            //let respuestaString = JSON.stringify(resultado)
+            bot.sendMessage(chatId,
+                `-----------${maquina}-----------${dia}/${mes}/${year}-------
+                T1: ${Math.round(T1)} KG
+                T2: ${Math.round(T2)} KG
+                T3: ${Math.round(T3)} KG
+                TD: ${Math.round(TD)} KG
+                TN: ${Math.round(TN)} KG
+                TOTAL DESP: ${Math.round(e3)} KG
+                --------------------------------
+                Productos involucrados: ${productos}
+                ------------------------------
+                Operadores involucrados: ${operadores}
     
-        //         PD: Este desperdicio es netamente del proceso de extrusion, sin ajustes por consumo.
-        //         `);
-        //    // console.log({maquina,mes,dia,year})
+                PD: Este desperdicio es netamente del proceso de extrusion, sin ajustes por consumo.
+                `);
+           // console.log({maquina,mes,dia,year})
           
-        // }
+        }
     })
         
 } catch (error) {
