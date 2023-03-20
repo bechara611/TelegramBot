@@ -322,9 +322,6 @@ Operadores involucrados: ${operadores}
                 //?TOTAL
                 e3 = e3 + element['peso_bovina'];
             });
-            if (e3 <= 0) {
-                bot.sendMessage(chatId, `No hay desperdicio para  ${maquina} en el dia ${dia}/${mes}/${year}`)
-            } else {
             //let respuestaString = JSON.stringify(resultado)
             bot.sendMessage(chatId,
                 `-----------${maquina}-----------${dia}/${mes}/${year}-------
@@ -340,7 +337,7 @@ Operadores involucrados: ${operadores}
                Operadores involucrados: ${operadores}
    
                PD: Este desperdicio es netamente del proceso de extrusion, sin ajustes por consumo.
-               `);}
+               `);
             // console.log({maquina,mes,dia,year})
         }
 

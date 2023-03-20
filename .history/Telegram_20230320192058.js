@@ -74,7 +74,7 @@ try {
                 callback_data: 'REPESAR',
             },
         ],
-
+        
         [
             {
                 text: 'CANCEL',
@@ -264,26 +264,20 @@ try {
                 //?TOTAL
                 e1 = e1 + element['peso_bovina'];
             });
-            if (e1 <= 0) {
-                bot.sendMessage(chatId, `No hay produccion de calidad 1 para  ${maquina} en el dia ${dia}/${mes}/${year}`)
-            } else {
-                //let respuestaString = JSON.stringify(resultado)
-                bot.sendMessage(chatId,
-                    `-----------${maquina}-----------${dia}/${mes}/${year}-------
-T1: ${Math.round(T1)} KG
-T2: ${Math.round(T2)} KG
-T3: ${Math.round(T3)} KG
-TD: ${Math.round(TD)} KG
-TN: ${Math.round(TN)} KG
-TOTAL E1: ${Math.round(e1)} KG
-------------------------------
-Productos involucrados: ${productos}
-------------------------------
-Operadores involucrados: ${operadores}
-`);
-
-            }
-
+            //let respuestaString = JSON.stringify(resultado)
+            bot.sendMessage(chatId,
+                `-----------${maquina}-----------${dia}/${mes}/${year}-------
+            T1: ${Math.round(T1)} KG
+            T2: ${Math.round(T2)} KG
+            T3: ${Math.round(T3)} KG
+            TD: ${Math.round(TD)} KG
+            TN: ${Math.round(TN)} KG
+            TOTAL E1: ${Math.round(e1)} KG
+            ------------------------------
+            Productos involucrados: ${productos}
+            ------------------------------
+            Operadores involucrados: ${operadores}
+            `);
 
             // console.log({maquina,mes,dia,year})
             //? Nuevo
@@ -322,9 +316,6 @@ Operadores involucrados: ${operadores}
                 //?TOTAL
                 e3 = e3 + element['peso_bovina'];
             });
-            if (e3 <= 0) {
-                bot.sendMessage(chatId, `No hay desperdicio para  ${maquina} en el dia ${dia}/${mes}/${year}`)
-            } else {
             //let respuestaString = JSON.stringify(resultado)
             bot.sendMessage(chatId,
                 `-----------${maquina}-----------${dia}/${mes}/${year}-------
@@ -340,14 +331,14 @@ Operadores involucrados: ${operadores}
                Operadores involucrados: ${operadores}
    
                PD: Este desperdicio es netamente del proceso de extrusion, sin ajustes por consumo.
-               `);}
+               `);
             // console.log({maquina,mes,dia,year})
         }
 
         if (data === '1' && maquina === 'TODAS') {
 
-            // let respuestaFiltrada = resultado;
-
+           // let respuestaFiltrada = resultado;
+        
 
             maquinas.forEach(maquinita => {
                 let respuestaFiltrada = resultado;
@@ -388,9 +379,9 @@ Operadores involucrados: ${operadores}
                     e1 = e1 + element['peso_bovina'];
                 });
                 //let respuestaString = JSON.stringify(resultado)
-                if (e1 <= 0) {
-                    bot.sendMessage(chatId, `No hay produccion para la ${maquinita} en el dia ${dia}/${mes}/${year}`)
-                } else {
+                if(e1<=0){
+                    bot.sendMessage(chatId,`No hay produccion para la ${maquinita} en el dia ${dia}/${mes}/${year}`)
+                }else{
                     bot.sendMessage(chatId,
                         `-----------${maquinita}-----------${dia}/${mes}/${year}-------
                         T1: ${Math.round(T1)} KG
@@ -405,12 +396,12 @@ Operadores involucrados: ${operadores}
                         Operadores involucrados: ${operadores}
                         `);
                 }
-
+             
 
                 // console.log({maquina,mes,dia,year})
             });
 
-
+           
 
         }
 

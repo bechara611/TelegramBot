@@ -340,7 +340,7 @@ Operadores involucrados: ${operadores}
                Operadores involucrados: ${operadores}
    
                PD: Este desperdicio es netamente del proceso de extrusion, sin ajustes por consumo.
-               `);}
+               `);
             // console.log({maquina,mes,dia,year})
         }
 
