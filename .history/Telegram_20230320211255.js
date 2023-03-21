@@ -207,7 +207,7 @@ try {
                     inline_keyboard: [
                         [
                             {
-                                text: 'Pulsa aca para generar el reporte',
+                                text: 'Generar reporte ',
                                 callback_data: '1'
                             }
                         ]
@@ -349,7 +349,7 @@ Operadores involucrados: ${operadores}
             // let respuestaFiltrada = resultado;
 
 
-            maquinas.forEach(async maquinita => {
+            maquinas.forEach(maquinita => {
                 let respuestaFiltrada = resultado;
                 let e1 = 0
                 let T1 = 0;
@@ -362,7 +362,7 @@ Operadores involucrados: ${operadores}
                 respuestaFiltrada = respuestaFiltrada.filter((elemento) => elemento['id_maqempaque2'] == maquinita && elemento['DIAMES'] == dia && elemento['MES'] == mes && elemento['Año'] == year && elemento['calidad'] == 1)
                 //    console.log(respuestaFiltrada)
                 //    console.log(maquina)
-                respuestaFiltrada.forEach( async element => {
+                respuestaFiltrada.forEach( element => {
                     if (!productos.includes(element['VFL_COD'])) {
                         productos.push(element['VFL_COD'])
                     }
@@ -389,9 +389,9 @@ Operadores involucrados: ${operadores}
                 });
                 //let respuestaString = JSON.stringify(resultado)
                 if (e1 <= 0) {
-                 await   bot.sendMessage(chatId, `No hay produccion para ${maquinita} en el dia ${dia}/${mes}/${year}`)
+                    bot.sendMessage(chatId, `No hay produccion para ${maquinita} en el dia ${dia}/${mes}/${year}`)
                 } else {
-                 await   bot.sendMessage(chatId,
+                    bot.sendMessage(chatId,
                         `-----------${maquinita}-----------${dia}/${mes}/${year}-------
                         T1: ${Math.round(T1)} KG
                         T2: ${Math.round(T2)} KG
