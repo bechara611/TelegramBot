@@ -202,7 +202,7 @@ try {
         if (maquina && fecha.length === 3 && dia && mes && year && dia <= 31 && mes <= 12) {
 
             // bot.sendMessage(msg.chat.id, `Tu fecha seleccionada es ${msg.text} para la maquina ${maquina} por favor espere...`)
-            bot.sendMessage(msg.chat.id, '----', {
+            bot.sendMessage(msg.chat.id, ' ', {
                 reply_markup: {
                     inline_keyboard: [
                         [
