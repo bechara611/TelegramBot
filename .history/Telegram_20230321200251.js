@@ -363,8 +363,8 @@ Operadores involucrados: ${operadores}
                 //    console.log(respuestaFiltrada)
                 //    console.log(maquina)
                 respuestaFiltrada.forEach( async element => {
-                    if (!productos.includes(element['NOMBRE_PROD'])) {
-                        productos.push(element['NOMBRE_PROD'])
+                    if (!productos.includes(element['VFL_COD'])) {
+                        productos.push(element['VFL_COD'])
                     }
                     if (!operadores.includes(element['operador'].toLowerCase())) {
                         operadores.push(element['operador'].toLowerCase())
