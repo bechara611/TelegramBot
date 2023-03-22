@@ -363,8 +363,8 @@ Operadores involucrados: ${operadores}
                 //    console.log(respuestaFiltrada)
                 //    console.log(maquina)
                 respuestaFiltrada.forEach( async element => {
-                    if (!productos.includes(element['NOMBRE_PROD'] + ' '+ element['ESPESOR']+'x'+ element['ancho']+'mm')) {
-                        productos.push(element['NOMBRE_PROD'] + ' '+ element['ESPESOR']+'x'+ element['ancho']+'mm')
+                    if (!productos.includes(element['NOMBRE_PROD'] + ' '+ element['ancho']+'mm')) {
+                        productos.push(element['NOMBRE_PROD'] + ' '+ element['ancho']+'mm')
                     }
                     if (!operadores.includes(element['operador'].toLowerCase())) {
                         operadores.push(element['operador'].toLowerCase())
