@@ -240,8 +240,8 @@ try {
             //    console.log(respuestaFiltrada)
             //    console.log(maquina)
             respuestaFiltrada.forEach(element => {
-                if (!productos.includes(element['NOMBRE_PROD'] + ' '+ element['ancho']+'mm')) {
-                    productos.push(element['NOMBRE_PROD'] + ' '+ element['ancho']+'mm')
+                if (!productos.includes(element['NOMBRE_PROD'])) {
+                    productos.push(element['NOMBRE_PROD'])
                 }
                 if (!operadores.includes(element['operador'].toLowerCase())) {
                     operadores.push(element['operador'].toLowerCase())
@@ -298,8 +298,8 @@ Operadores involucrados: ${operadores}
             TN = 0;
             respuestaFiltrada = respuestaFiltrada.filter((elemento) => elemento['id_maqempaque2'] == maquina && elemento['DIAMES'] == dia && elemento['MES'] == mes && elemento['Año'] == year && elemento['calidad'] != 1)
             respuestaFiltrada.forEach(element => {
-                if (!productos.includes(element['NOMBRE_PROD'] + ' '+ element['ancho']+'mm')) {
-                    productos.push(element['NOMBRE_PROD'] + ' '+ element['ancho']+'mm')
+                if (!productos.includes(element['NOMBRE_PROD'])) {
+                    productos.push(element['NOMBRE_PROD'])
                 }
                 if (!operadores.includes(element['operador'].toLowerCase())) {
                     operadores.push(element['operador'].toLowerCase())
@@ -363,8 +363,8 @@ Operadores involucrados: ${operadores}
                 //    console.log(respuestaFiltrada)
                 //    console.log(maquina)
                 respuestaFiltrada.forEach( async element => {
-                    if (!productos.includes(element['NOMBRE_PROD'] + ' '+ element['ancho']+'mm')) {
-                        productos.push(element['NOMBRE_PROD'] + ' '+ element['ancho']+'mm')
+                    if (!productos.includes(element['NOMBRE_PROD'])) {
+                        productos.push(element['NOMBRE_PROD'] + element['ancho']+'mm')
                     }
                     if (!operadores.includes(element['operador'].toLowerCase())) {
                         operadores.push(element['operador'].toLowerCase())
