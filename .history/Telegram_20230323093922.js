@@ -1,10 +1,7 @@
 import TelegramBot from 'node-telegram-bot-api';
 import { leerArchivoExcel } from './excel.js';
-import { leerArchivoExcel2 } from './excel2.js';
 import { obtenerSemana } from './Helpers.js';
 // reemplaza con tu token de acceso
-const rutaInv ="./VFL INV.xlsx"
-const rutaInvRed = "L:/VFL BALANCE MP/RUTAS DE GP/VFL INV.xlsx"
 const token = '6270492397:AAERsqAbZwbLD73p1efZ8aw38eFky4YwRy0';
 const tokenPrueba2 = '5776165902:AAGWs7OUTqR1iZDpT1HepqvFhlE7R7E7qg8'
 // Crear un nuevo bot con el token proporcionado por BotFather
@@ -206,7 +203,7 @@ try {
         }
         if (data === 'INVENTARIOS') {
 
-            bot.sendMessage(chatId, 'Por favor seleccione un almacén: ', {
+            bot.sendMessage(msg.chat.id, 'Por favor seleccione un almacén: ', {
                 reply_markup: {
                     inline_keyboard: [
                         [
@@ -242,7 +239,7 @@ try {
                         [
                             {
                                 text: 'AL-P03',
-                                callback_data: 'AL-P03'
+                                callback_data: 'AL-POR_FAC'
                             }
                         ],
                     ]
@@ -612,51 +609,17 @@ Operadores involucrados: ${operadores}
 
         if (data === 'AL-SEMELC1') {
             const almacen = await obtenerInventario(data)
-            bot.sendMessage(chatId, `
-            ------------------${data}----------------
-            ${JSON.stringify(almacen, null, 2)}`)
+            console.log(almacen);
         }
-        if (data === 'AL-SEMELC2') {
-            const almacen = await obtenerInventario(data)
-            bot.sendMessage(chatId, `
-            ------------------${data}----------------
-            ${JSON.stringify(almacen, null, 2)}`)
-        }
-        if (data === 'AL-T05') {
-            const almacen = await obtenerInventario(data)
-            bot.sendMessage(chatId, `
-            ------------------${data}----------------
-            ${JSON.stringify(almacen, null, 2)}`)
-        }
-        if (data === 'AL-T06') {
-            const almacen = await obtenerInventario(data)
-            bot.sendMessage(chatId, `
-            ------------------${data}----------------
-            ${JSON.stringify(almacen, null, 2)}`)
-        }
-        if (data === 'AL-POR_FAC') {
-            const almacen = await obtenerInventario(data)
-            bot.sendMessage(chatId, `
-            ------------------${data}----------------
-            ${JSON.stringify(almacen, null, 2)}`)
-        }
-        if (data === 'AL-P03') {
-            const almacen = await obtenerInventario(data)
-            bot.sendMessage(chatId, `
-            ------------------${data}----------------
-            ${JSON.stringify(almacen, null, 2)}`)
-        }
-
-        
     })
     const obtenerInventario = async (data) => {
         let productos = []
-        let resultado = await leerArchivoExcel2(rutaInvRed, 0);
-        let objeto = [];
+        let resultado = await leerArchivoExcel('./VFL INV.xlsX', 0);
+        let objeto=[];
         productos = resultado;
-        productos = productos.filter((producto) => producto['UBICACION'] == data)
-        productos.forEach(async element => {
-            objeto.push({ Material: element['ALIAS_ART'], cantidad: element['CANT_EXISTENCIA'] })
+        productos=productos.filter((producto)=>producto['UBICACION']==data)
+        productos.forEach( async element => {
+             objeto.push({Material:element['ALIAS_ART'],cantidad:element['CANT_EXISTENCIA']})
         });
         return objeto;
     }

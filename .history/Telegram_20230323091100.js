@@ -1,10 +1,7 @@
 import TelegramBot from 'node-telegram-bot-api';
 import { leerArchivoExcel } from './excel.js';
-import { leerArchivoExcel2 } from './excel2.js';
 import { obtenerSemana } from './Helpers.js';
 // reemplaza con tu token de acceso
-const rutaInv ="./VFL INV.xlsx"
-const rutaInvRed = "L:/VFL BALANCE MP/RUTAS DE GP/VFL INV.xlsx"
 const token = '6270492397:AAERsqAbZwbLD73p1efZ8aw38eFky4YwRy0';
 const tokenPrueba2 = '5776165902:AAGWs7OUTqR1iZDpT1HepqvFhlE7R7E7qg8'
 // Crear un nuevo bot con el token proporcionado por BotFather
@@ -30,9 +27,9 @@ try {
     let year = ''
     let mes = ''
     let pulso = false
-    let pulsoSemana = false;
+    let pulsoSemana=false;
     let dia = ''
-    let numeroSemana = null;
+    let numeroSemana=null;
     const MENUMAQ = [
         [
             {
@@ -88,13 +85,6 @@ try {
                 callback_data: 'REPESAR',
             },
         ],
-        [
-            {
-                text: 'INVENTARIOS',
-                callback_data: 'INVENTARIOS',
-            },
-        ],
-
 
         [
             {
@@ -111,7 +101,7 @@ try {
     };
 
     bot.onText(/\/start/, async (msg) => {
-        pulsoSemana = false
+        pulsoSemana=false
         bot.sendMessage(msg.chat.id, `Iniciando, por favor espere...`);
         resultado = [];
         resultado = await leerArchivoExcel('./VFL QUERY SQL 2.xlsm');
@@ -197,57 +187,11 @@ try {
             maquina = 'TODAS'
             semana = 'SEMANA'
             pulso = true
-            pulsoSemana = true
+            pulsoSemana=true
             // Ejecuta la acción que deseas realizar cuando el usuario hace clic en "Ejecutar acción"
             //bot.sendMessage(chatId, `Seleccionaste ${maquina}`);
             bot.sendMessage(chatId, `Ahora escriba por favor el numero de la semana`);
 
-
-        }
-        if (data === 'INVENTARIOS') {
-
-            bot.sendMessage(chatId, 'Por favor seleccione un almacén: ', {
-                reply_markup: {
-                    inline_keyboard: [
-                        [
-                            {
-                                text: 'AL-SEMELC1',
-                                callback_data: 'AL-SEMELC1'
-                            }
-                        ],
-                        [
-                            {
-                                text: 'AL-SEMELC2',
-                                callback_data: 'AL-SEMELC2'
-                            }
-                        ],
-                        [
-                            {
-                                text: 'AL-T05',
-                                callback_data: 'AL-T05'
-                            }
-                        ],
-                        [
-                            {
-                                text: 'AL-T06',
-                                callback_data: 'AL-T06'
-                            }
-                        ],
-                        [
-                            {
-                                text: 'AL-POR_FAC',
-                                callback_data: 'AL-POR_FAC'
-                            }
-                        ],
-                        [
-                            {
-                                text: 'AL-P03',
-                                callback_data: 'AL-P03'
-                            }
-                        ],
-                    ]
-                }
-            });
 
         }
         if (data === 'stop') {
@@ -263,7 +207,7 @@ try {
     bot.on('message', (msg) => {
         //? comprobar que si sea fecha lo que coloques
 
-        if (semana != 'SEMANA' && pulsoSemana === false && msg.text !== '/start' && msg.text.toUpperCase() !== '/START') {
+        if (semana != 'SEMANA' && pulsoSemana===false &&  msg.text !== '/start' && msg.text.toUpperCase() !== '/START') {
             fecha = msg.text.split('-');
             dia = fecha[0]
             mes = fecha[1]
@@ -300,16 +244,16 @@ try {
                 pulso = false
             }
         }
-        if (semana == 'SEMANA' && pulsoSemana == true && msg.text !== '/start' && msg.text.toUpperCase() !== '/START') {
-            numeroSemana = msg.text
-            if (isNaN(numeroSemana) === true) {
-                numeroSemana = null
+        if(semana=='SEMANA' && pulsoSemana==true  &&  msg.text !== '/start' && msg.text.toUpperCase() !== '/START'){
+            numeroSemana=msg.text
+            if( isNaN(numeroSemana)===true){
+                numeroSemana=null
                 if (pulso === true && maquina && msg.text !== '/start' && msg.text.toUpperCase() !== '/START') {
                     bot.sendMessage(msg.chat.id, `Tu semana seleccionada es incorrecta, vuelva a intentarlo`)
                     return
-
-                }
-            } else {
+    
+                }    
+            }else{
                 bot.sendMessage(msg.chat.id, '----', {
                     reply_markup: {
                         inline_keyboard: [
@@ -322,11 +266,11 @@ try {
                         ]
                     }
                 });
-                //  console.log(numeroSemana)
-                semana = ''
-
+              //  console.log(numeroSemana)
+                semana=''
+              
             }
-
+            
         }
 
     })
@@ -533,8 +477,8 @@ Operadores involucrados: ${operadores}
 
         }
         //?esta seccion del menu 3 es para mostrar todo por semana se le asigno el numero 3
-        if (data === '3') {
-            semana = '';
+        if(data==='3'){
+            semana='';
             maquinas.forEach(async maquinita => {
                 let respuestaFiltrada = resultado;
                 let e1 = 0
@@ -545,12 +489,12 @@ Operadores involucrados: ${operadores}
                 let TN = 0;
                 let productos = [];
                 let operadores = [];
-                respuestaFiltrada = respuestaFiltrada.filter((elemento) => elemento['id_maqempaque2'] == maquinita && elemento['SEMANA2'] == numeroSemana && elemento['calidad'] == 1)
+                respuestaFiltrada = respuestaFiltrada.filter((elemento) => elemento['id_maqempaque2'] == maquinita && elemento['SEMANA2'] == numeroSemana   &&  elemento['calidad'] == 1)
                 //    console.log(respuestaFiltrada)
                 //    console.log(maquina)
-
+ 
                 respuestaFiltrada.forEach(async element => {
-
+                
                     if (!productos.includes(element['NOMBRE_PROD'] + ' ' + element['ESPESOR'] + 'x' + element['ancho'] + 'mm')) {
                         productos.push(element['NOMBRE_PROD'] + ' ' + element['ESPESOR'] + 'x' + element['ancho'] + 'mm')
                     }
@@ -575,7 +519,7 @@ Operadores involucrados: ${operadores}
                     //?TOTAL
                     e1 = e1 + element['peso_bovina'];
                 });
-
+                
                 //let respuestaString = JSON.stringify(resultado)
                 setTimeout(() => {
 
@@ -605,61 +549,6 @@ Operadores involucrados: ${operadores}
 
     })
 
-    //? APARTADO DE LOS INVENTARIOS
-    bot.on('callback_query', async (query) => {
-        const chatId = query.message.chat.id;
-        const data = query.data;
-
-        if (data === 'AL-SEMELC1') {
-            const almacen = await obtenerInventario(data)
-            bot.sendMessage(chatId, `
-            ------------------${data}----------------
-            ${JSON.stringify(almacen, null, 2)}`)
-        }
-        if (data === 'AL-SEMELC2') {
-            const almacen = await obtenerInventario(data)
-            bot.sendMessage(chatId, `
-            ------------------${data}----------------
-            ${JSON.stringify(almacen, null, 2)}`)
-        }
-        if (data === 'AL-T05') {
-            const almacen = await obtenerInventario(data)
-            bot.sendMessage(chatId, `
-            ------------------${data}----------------
-            ${JSON.stringify(almacen, null, 2)}`)
-        }
-        if (data === 'AL-T06') {
-            const almacen = await obtenerInventario(data)
-            bot.sendMessage(chatId, `
-            ------------------${data}----------------
-            ${JSON.stringify(almacen, null, 2)}`)
-        }
-        if (data === 'AL-POR_FAC') {
-            const almacen = await obtenerInventario(data)
-            bot.sendMessage(chatId, `
-            ------------------${data}----------------
-            ${JSON.stringify(almacen, null, 2)}`)
-        }
-        if (data === 'AL-P03') {
-            const almacen = await obtenerInventario(data)
-            bot.sendMessage(chatId, `
-            ------------------${data}----------------
-            ${JSON.stringify(almacen, null, 2)}`)
-        }
-
-        
-    })
-    const obtenerInventario = async (data) => {
-        let productos = []
-        let resultado = await leerArchivoExcel2(rutaInvRed, 0);
-        let objeto = [];
-        productos = resultado;
-        productos = productos.filter((producto) => producto['UBICACION'] == data)
-        productos.forEach(async element => {
-            objeto.push({ Material: element['ALIAS_ART'], cantidad: element['CANT_EXISTENCIA'] })
-        });
-        return objeto;
-    }
 } catch (error) {
     // console.log(error)
 }

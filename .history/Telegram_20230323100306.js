@@ -8,7 +8,7 @@ const rutaInvRed = "L:/VFL BALANCE MP/RUTAS DE GP/VFL INV.xlsx"
 const token = '6270492397:AAERsqAbZwbLD73p1efZ8aw38eFky4YwRy0';
 const tokenPrueba2 = '5776165902:AAGWs7OUTqR1iZDpT1HepqvFhlE7R7E7qg8'
 // Crear un nuevo bot con el token proporcionado por BotFather
-const bot = new TelegramBot(token, { polling: true });
+const bot = new TelegramBot(tokenPrueba2, { polling: true });
 // let resultado = await leerArchivoExcel('./VFL QUERY SQL 2.xlsm');
 
 try {
