@@ -8,7 +8,7 @@ const rutaInvRed = "L:/VFL BALANCE MP/RUTAS DE GP/VFL INV.xlsx"
 const token = '6270492397:AAERsqAbZwbLD73p1efZ8aw38eFky4YwRy0';
 const tokenPrueba2 = '5776165902:AAGWs7OUTqR1iZDpT1HepqvFhlE7R7E7qg8'
 // Crear un nuevo bot con el token proporcionado por BotFather
-const bot = new TelegramBot(token, { polling: true });
+const bot = new TelegramBot(tokenPrueba2, { polling: true });
 // let resultado = await leerArchivoExcel('./VFL QUERY SQL 2.xlsm');
 
 try {
@@ -243,18 +243,6 @@ try {
                             {
                                 text: 'AL-P03',
                                 callback_data: 'AL-P03'
-                            }
-                        ],
-                        [
-                            {
-                                text: 'AL-P02',
-                                callback_data: 'AL-P02'
-                            }
-                        ],
-                        [
-                            {
-                                text: 'AL-P01',
-                                callback_data: 'AL-P01'
                             }
                         ],
                     ]
@@ -624,53 +612,57 @@ Operadores involucrados: ${operadores}
 
         if (data === 'AL-SEMELC1') {
             const almacen = await obtenerInventario(data)
-            bot.sendMessage(chatId, '<code>' + almacen + '</code>', { parse_mode: 'HTML' });
+            bot.sendMessage(chatId, `
+            ------------------${data}----------------
+            ${JSON.stringify(almacen, null, 2)}`)
         }
         if (data === 'AL-SEMELC2') {
             const almacen = await obtenerInventario(data)
-            bot.sendMessage(chatId, '<code>' + almacen + '</code>', { parse_mode: 'HTML' });
+            bot.sendMessage(chatId, `
+            ------------------${data}----------------
+            ${JSON.stringify(almacen, null, 2)}`)
         }
         if (data === 'AL-T05') {
             const almacen = await obtenerInventario(data)
-            bot.sendMessage(chatId, '<code>' + almacen + '</code>', { parse_mode: 'HTML' });
+            bot.sendMessage(chatId, `
+            ------------------${data}----------------
+            ${JSON.stringify(almacen, null, 2)}`)
         }
         if (data === 'AL-T06') {
             const almacen = await obtenerInventario(data)
-            bot.sendMessage(chatId, '<code>' + almacen + '</code>', { parse_mode: 'HTML' });
+            bot.sendMessage(chatId, `
+            ------------------${data}----------------
+            ${JSON.stringify(almacen, null, 2)}`)
         }
         if (data === 'AL-POR_FAC') {
             const almacen = await obtenerInventario(data)
-            bot.sendMessage(chatId, '<code>' + almacen + '</code>', { parse_mode: 'HTML' });
+            bot.sendMessage(chatId, `
+            ------------------${data}----------------
+            ${JSON.stringify(almacen, null, 2)}`)
         }
         if (data === 'AL-P03') {
             const almacen = await obtenerInventario(data)
-            bot.sendMessage(chatId, '<code>' + almacen + '</code>', { parse_mode: 'HTML' });
-        }
-        if (data === 'AL-P02') {
-            const almacen = await obtenerInventario(data)
-            bot.sendMessage(chatId, '<code>' + almacen + '</code>', { parse_mode: 'HTML' });
-        }
-        if (data === 'AL-P01') {
-            const almacen = await obtenerInventario(data)
-            bot.sendMessage(chatId, '<code>' + almacen + '</code>', { parse_mode: 'HTML' });
+            bot.sendMessage(chatId, `
+            ------------------${data}----------------
+            ${JSON.stringify(almacen, null, 2)}`)
         }
 
 
     })
     const obtenerInventario = async (data) => {
         let productos = []
-        let resultado = await leerArchivoExcel2(rutaInvRed, 0);
+        let resultado = await leerArchivoExcel2(rutaInv, 0);
         let objeto = [];
         productos = resultado;
         productos = productos.filter((producto) => producto['UBICACION'] == data)
         productos.forEach(async element => {
-            objeto.push({ Material: element['ALIAS_ART'], cantidad: element['CANT_EXISTENCIA'] + ' KG' })
+            objeto.push({ Material: element['ALIAS_ART'], cantidad: element['CANT_EXISTENCIA'] })
         });
-        let result='';
+        let result;
         for (let i = 0; i < objeto.length; i++) {
-            if(objeto[i]!=undefined){
+            if(objeto[i].Material){
                 let values = Object.values(objeto[i]);
-                result += values.join(':') + '\n'; 
+                result += values.join(':') + '<br>';
 
             }
         }

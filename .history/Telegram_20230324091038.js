@@ -245,18 +245,6 @@ try {
                                 callback_data: 'AL-P03'
                             }
                         ],
-                        [
-                            {
-                                text: 'AL-P02',
-                                callback_data: 'AL-P02'
-                            }
-                        ],
-                        [
-                            {
-                                text: 'AL-P01',
-                                callback_data: 'AL-P01'
-                            }
-                        ],
                     ]
                 }
             });
@@ -624,35 +612,39 @@ Operadores involucrados: ${operadores}
 
         if (data === 'AL-SEMELC1') {
             const almacen = await obtenerInventario(data)
-            bot.sendMessage(chatId, '<code>' + almacen + '</code>', { parse_mode: 'HTML' });
+            bot.sendMessage(chatId, `
+            ------------------${data}----------------
+            ${JSON.stringify(almacen, null, 2)}`)
         }
         if (data === 'AL-SEMELC2') {
             const almacen = await obtenerInventario(data)
-            bot.sendMessage(chatId, '<code>' + almacen + '</code>', { parse_mode: 'HTML' });
+            bot.sendMessage(chatId, `
+            ------------------${data}----------------
+            ${JSON.stringify(almacen, null, 2)}`)
         }
         if (data === 'AL-T05') {
             const almacen = await obtenerInventario(data)
-            bot.sendMessage(chatId, '<code>' + almacen + '</code>', { parse_mode: 'HTML' });
+            bot.sendMessage(chatId, `
+            ------------------${data}----------------
+            ${JSON.stringify(almacen, null, 2)}`)
         }
         if (data === 'AL-T06') {
             const almacen = await obtenerInventario(data)
-            bot.sendMessage(chatId, '<code>' + almacen + '</code>', { parse_mode: 'HTML' });
+            bot.sendMessage(chatId, `
+            ------------------${data}----------------
+            ${JSON.stringify(almacen, null, 2)}`)
         }
         if (data === 'AL-POR_FAC') {
             const almacen = await obtenerInventario(data)
-            bot.sendMessage(chatId, '<code>' + almacen + '</code>', { parse_mode: 'HTML' });
+            bot.sendMessage(chatId, `
+            ------------------${data}----------------
+            ${JSON.stringify(almacen, null, 2)}`)
         }
         if (data === 'AL-P03') {
             const almacen = await obtenerInventario(data)
-            bot.sendMessage(chatId, '<code>' + almacen + '</code>', { parse_mode: 'HTML' });
-        }
-        if (data === 'AL-P02') {
-            const almacen = await obtenerInventario(data)
-            bot.sendMessage(chatId, '<code>' + almacen + '</code>', { parse_mode: 'HTML' });
-        }
-        if (data === 'AL-P01') {
-            const almacen = await obtenerInventario(data)
-            bot.sendMessage(chatId, '<code>' + almacen + '</code>', { parse_mode: 'HTML' });
+            bot.sendMessage(chatId, `
+            ------------------${data}----------------
+            ${JSON.stringify(almacen, null, 2)}`)
         }
 
 
@@ -664,15 +656,11 @@ Operadores involucrados: ${operadores}
         productos = resultado;
         productos = productos.filter((producto) => producto['UBICACION'] == data)
         productos.forEach(async element => {
-            objeto.push({ Material: element['ALIAS_ART'], cantidad: element['CANT_EXISTENCIA'] + ' KG' })
+            objeto.push({ Material: element['ALIAS_ART'], cantidad: element['CANT_EXISTENCIA'] })
         });
-        let result='';
+        let result;
         for (let i = 0; i < objeto.length; i++) {
-            if(objeto[i]!=undefined){
-                let values = Object.values(objeto[i]);
-                result += values.join(':') + '\n'; 
-
-            }
+            result += `${objeto[i].Material}: ${objeto[i].cantidad}\n`;
         }
         return result;
     }
