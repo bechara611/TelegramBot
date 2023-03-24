@@ -700,7 +700,7 @@ Operadores involucrados: ${operadores}
             bot.sendMessage(chatId,`Fecha de la ultima actualización: ${fecha}`)
         }
 
-//ok
+
     })
     const obtenerInventario = async (data) => {
         //?obteniendo informacion de la ultima modificacion del archivo
