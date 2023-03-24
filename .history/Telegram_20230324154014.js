@@ -348,12 +348,9 @@ try {
     bot.on('callback_query', async (query) => {
         const chatId = query.message.chat.id;
         const data = query.data;
-        const fecha2 = await obtenerFechaDeUnArchivo('./VFL QUERY SQL 2.xlsm')
-        if(data==='3' || data==='1'){
-            bot.sendMessage(chatId,`Fecha de la ultima actualización: ${fecha2}`)
-        }
+        const fecha = await obtenerFechaDeUnArchivo('./VFL QUERY SQL 2.xlsm')
         if (data === '1' && maquina !== 'TODAS') {
-          
+
             let respuestaFiltrada = resultado;
             //console.log(respuestaFiltrada[0]['FECHATEXTO'])
             //let fecha = new Date(respuestaFiltrada[0]['FECHATEXTO'])
