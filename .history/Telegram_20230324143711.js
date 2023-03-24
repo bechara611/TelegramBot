@@ -622,9 +622,7 @@ Operadores involucrados: ${operadores}
     bot.on('callback_query', async (query) => {
         const chatId = query.message.chat.id;
         const data = query.data;
-        let fecha= Date;
-         fecha = await obtenerFechaDeUnArchivo();
-       
+        let fecha = await obtenerFechaDeUnArchivo();
 
         if (data === 'AL-SEMELC1') {
             const almacen = await obtenerInventario(data)
@@ -633,7 +631,6 @@ Operadores involucrados: ${operadores}
             }else{
                 bot.sendMessage(chatId, 'ALMACEN EN 0');
             }
-            bot.sendMessage(chatId,`Fecha de la ultima actualización: ${fecha}`)
         }
         if (data === 'AL-SEMELC2') {
             const almacen = await obtenerInventario(data)
@@ -642,7 +639,6 @@ Operadores involucrados: ${operadores}
             }else{
                 bot.sendMessage(chatId, 'ALMACEN EN 0');
             }
-            bot.sendMessage(chatId,`Fecha de la ultima actualización: ${fecha}`)
         }
         if (data === 'AL-T05') {
             const almacen = await obtenerInventario(data)
@@ -651,7 +647,6 @@ Operadores involucrados: ${operadores}
             }else{
                 bot.sendMessage(chatId, 'ALMACEN EN 0');
             }
-            bot.sendMessage(chatId,`Fecha de la ultima actualización: ${fecha}`)
         }
         if (data === 'AL-T06') {
             const almacen = await obtenerInventario(data)
@@ -660,7 +655,6 @@ Operadores involucrados: ${operadores}
             }else{
                 bot.sendMessage(chatId, 'ALMACEN EN 0');
             }
-            bot.sendMessage(chatId,`Fecha de la ultima actualización: ${fecha}`)
         }
         if (data === 'AL-POR_FAC') {
             const almacen = await obtenerInventario(data)
@@ -669,7 +663,6 @@ Operadores involucrados: ${operadores}
             }else{
                 bot.sendMessage(chatId, 'ALMACEN EN 0');
             }
-            bot.sendMessage(chatId,`Fecha de la ultima actualización: ${fecha}`)
         }
         if (data === 'AL-P03') {
             const almacen = await obtenerInventario(data)
@@ -678,7 +671,6 @@ Operadores involucrados: ${operadores}
             }else{
                 bot.sendMessage(chatId, 'ALMACEN EN 0');
             }
-            bot.sendMessage(chatId,`Fecha de la ultima actualización: ${fecha}`)
 
         }
         if (data === 'AL-P02') {
@@ -688,7 +680,6 @@ Operadores involucrados: ${operadores}
             }else{
                 bot.sendMessage(chatId, 'ALMACEN EN 0');
             }
-            bot.sendMessage(chatId,`Fecha de la ultima actualización: ${fecha}`)
         }
         if (data === 'AL-P01') {
             const almacen = await obtenerInventario(data)
@@ -697,7 +688,6 @@ Operadores involucrados: ${operadores}
             }else{
                 bot.sendMessage(chatId, 'ALMACEN EN 0');
             }
-            bot.sendMessage(chatId,`Fecha de la ultima actualización: ${fecha}`)
         }
 
 
@@ -724,25 +714,17 @@ Operadores involucrados: ${operadores}
         return result;
     }
 
-    const obtenerFechaDeUnArchivo =()=>{
-        return new Promise((resolve,reject)=>{
-           fs.stat(rutaInv,(err, stats) => {
-                if (err) {
-                  console.error(err);
-                  resolve(null)
-                }
-              
-                const lastModified = stats.mtime;
-      
-               // console.log(`2 La última modificación del archivo fue el ${lastModified}`);
-               resolve(lastModified)
-              });
-         
-        })
-        
+    const obtenerFechaDeUnArchivo =async()=>{
+        fs.stat(rutaInv, (err, stats) => {
+            if (err) {
+              console.error(err);
+              return;
+            }
           
-        
-    
+            const lastModified = stats.mtime;
+            return stats.mtime
+            //console.log(`La última modificación del archivo fue el ${lastModified}`);
+          });
     }
 } catch (error) {
     // console.log(error)
