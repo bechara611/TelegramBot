@@ -13,7 +13,7 @@ const tokenPrueba2 = '5776165902:AAGWs7OUTqR1iZDpT1HepqvFhlE7R7E7qg8'
 //maquinas para la parte de erema
 let maquinas2 = ['SML EREMA', 'RECICLADORA 1', 'RECICLADORA 2']
 // Crear un nuevo bot con el token proporcionado por BotFather
-const bot = new TelegramBot(token, { polling: true });
+const bot = new TelegramBot(tokenPrueba2, { polling: true });
 // let resultado = await leerArchivoExcel('./VFL QUERY SQL 2.xlsm');
 
 try {
@@ -678,8 +678,8 @@ Operadores involucrados: ${operadores}
         if (data === '1EREMAS' && maquina === 'TODASEREMAS') {
             let fecha = new Date();
             bot.sendMessage(chatId, `Obteniendo información de las recicladoras... por favor, espere...`);
-            fecha = await obtenerFechaDeUnArchivo(rutaEremasRed);
-            let resultado = await leerArchivoExcel3(rutaEremasRed, 'BD_RECICLADO');
+            fecha = await obtenerFechaDeUnArchivo(rutaEremas);
+            let resultado = await leerArchivoExcel3(rutaEremas, 'BD_RECICLADO');
             let respuestaFiltrada = [];
             respuestaFiltrada = resultado;
            // console.log(respuestaFiltrada)

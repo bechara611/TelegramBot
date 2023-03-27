@@ -1,17 +1,13 @@
 import TelegramBot from 'node-telegram-bot-api';
 import { leerArchivoExcel } from './excel.js';
-import { leerArchivoExcel2, leerArchivoExcel3 } from './excel2.js';
+import { leerArchivoExcel2 } from './excel2.js';
 import { obtenerSemana } from './Helpers.js';
 import fs from 'fs';
 // reemplaza con tu token de acceso
 const rutaInv = "./VFL INV.xlsx"
 const rutaInvRed = "L:/VFL BALANCE MP/RUTAS DE GP/VFL INV.xlsx"
-const rutaEremas = "./EREMAS/BD EREMAS.xlsx"
-const rutaEremasRed = "L:/VFL BALANCE MP/BD EREMAS.xlsx"
 const token = '6270492397:AAERsqAbZwbLD73p1efZ8aw38eFky4YwRy0';
 const tokenPrueba2 = '5776165902:AAGWs7OUTqR1iZDpT1HepqvFhlE7R7E7qg8'
-//maquinas para la parte de erema
-let maquinas2 = ['SML EREMA', 'RECICLADORA 1', 'RECICLADORA 2']
 // Crear un nuevo bot con el token proporcionado por BotFather
 const bot = new TelegramBot(token, { polling: true });
 // let resultado = await leerArchivoExcel('./VFL QUERY SQL 2.xlsm');
@@ -39,7 +35,24 @@ try {
     let dia = ''
     let numeroSemana = null;
     const MENUMAQ = [
-       
+        [
+            {
+                text: 'RESUMEN GENERAL E1 POR DIA- EXTRUSIÓN',
+                callback_data: 'TODAS',
+            },
+        ],
+        [
+            {
+                text: 'RESUMEN GENERAL E1 POR SEMANA- EXTRUSIÓN',
+                callback_data: 'SEMANA',
+            },
+        ],
+        [
+            {
+                text: 'RESUMEN GENERAL RECICLAJE POR DIA',
+                callback_data: 'EREMAS',
+            },
+        ],
         [
             {
                 text: 'RH1',
@@ -80,24 +93,6 @@ try {
             {
                 text: 'MAKLAUS',
                 callback_data: 'REPESAR',
-            },
-        ],
-        [
-            {
-                text: 'RESUMEN GENERAL E1 POR DIA- EXT Y COR',
-                callback_data: 'TODAS',
-            },
-        ],
-        [
-            {
-                text: 'RESUMEN GENERAL E1 POR SEMANA- EXT Y COR',
-                callback_data: 'SEMANA',
-            },
-        ],
-        [
-            {
-                text: 'RESUMEN GENERAL RECICLAJE POR DIA',
-                callback_data: 'EREMAS',
             },
         ],
         [
@@ -295,7 +290,7 @@ try {
     bot.on('message', (msg) => {
         //? comprobar que si sea fecha lo que coloques
 
-        if (semana != 'SEMANA' && maquina != 'TODASEREMAS' && pulsoSemana === false && msg.text !== '/start' && msg.text.toUpperCase() !== '/START') {
+        if (semana != 'SEMANA' && pulsoSemana === false && msg.text !== '/start' && msg.text.toUpperCase() !== '/START') {
             fecha = msg.text.split('-');
             dia = fecha[0]
             mes = fecha[1]
@@ -332,7 +327,7 @@ try {
                 pulso = false
             }
         }
-        if (semana == 'SEMANA' && maquina != 'TODASEREMAS' && pulsoSemana == true && msg.text !== '/start' && msg.text.toUpperCase() !== '/START') {
+        if (semana == 'SEMANA' && pulsoSemana == true && msg.text !== '/start' && msg.text.toUpperCase() !== '/START') {
             numeroSemana = msg.text
             if (isNaN(numeroSemana) === true) {
                 numeroSemana = null
@@ -360,7 +355,7 @@ try {
             }
 
         }
-        //TODO EREMAS 1
+        //?EREMAS
         if (semana != 'SEMANA' && pulsoSemana === false && maquina == 'TODASEREMAS' && msg.text !== '/start' && msg.text.toUpperCase() !== '/START') {
             fecha = msg.text.split('-');
             dia = fecha[0]
@@ -381,7 +376,7 @@ try {
             if (maquina && fecha.length === 3 && dia && mes && year && dia <= 31 && mes <= 12) {
 
                 // bot.sendMessage(msg.chat.id, `Tu fecha seleccionada es ${msg.text} para la maquina ${maquina} por favor espere...`)
-                bot.sendMessage(msg.chat.id, '--', {
+                bot.sendMessage(msg.chat.id, ' ', {
                     reply_markup: {
                         inline_keyboard: [
                             [
@@ -676,78 +671,118 @@ Operadores involucrados: ${operadores}
         }
         //TODO EREMAS
         if (data === '1EREMAS' && maquina === 'TODASEREMAS') {
-            let fecha = new Date();
-            bot.sendMessage(chatId, `Obteniendo información de las recicladoras... por favor, espere...`);
-            fecha = await obtenerFechaDeUnArchivo(rutaEremasRed);
-            let resultado = await leerArchivoExcel3(rutaEremasRed, 'BD_RECICLADO');
-            let respuestaFiltrada = [];
-            respuestaFiltrada = resultado;
-           // console.log(respuestaFiltrada)
-            maquinas2.forEach(async maquinita => {
-                let respuestaFiltrada = resultado;
-                let e1 = 0
-                let T1 = 0;
-                let T2 = 0;
-                let T3 = 0;
-                let TD = 0;
-                let TN = 0;
-                let productos = [];
-                let operadores = [];
-                respuestaFiltrada = respuestaFiltrada.filter((elemento) => elemento['MAQUINA'] == maquinita && elemento['DIA'] == dia && elemento['MES2'] == mes && elemento['AÑO'] == year)
-                  // console.log(respuestaFiltrada)
-                //    console.log(maquina)
-                respuestaFiltrada.forEach(async element => {
-                    if (!productos.includes(element['MATERIAL'])) {
-                        if (element['KG NETO'] > 0) {
-
-                            productos.push(element['MATERIAL'])
-                        }
-                    }
-
-                    if (element['TURNO'] == '1') {
-                        T1 = T1 + element['KG NETO'];
-                    }
-                    if (element['TURNO'] == '2') {
-                        T2 = T2 + element['KG NETO'];
-                    }
-                    if (element['TURNO'] == '3') {
-                        T3 = T3 + element['KG NETO'];
-                    }
-                    if (element['TURNO'] == 'D') {
-                        TD = TD + element['KG NETO'];
-                    }
-                    if (element['TURNO'] == 'N') {
-                        TN = TN + element['KG NETO'];
-                    }
-                    //?TOTAL
-                    e1 = e1 + element['KG NETO'];
-                });
-                //let respuestaString = JSON.stringify(resultado)
-                setTimeout(() => {
-
-                }, 1000);
-                if (e1 <= 0) {
-                    await bot.sendMessage(chatId, `${maquinita}: 0 KG`)
-                } else {
-                    bot.sendMessage(chatId,
-                        `--${maquinita}---${dia}/${mes}/${year}-------
-                   T1: ${Math.round(T1)} KG
-                   T2: ${Math.round(T2)} KG
-                   T3: ${Math.round(T3)} KG
-                   TD: ${Math.round(TD)} KG
-                   TN: ${Math.round(TN)} KG
-                   TOTAL PROCESADO: ${Math.round(e1)} KG
-                   --------------------------------
-                   Productos involucrados: ${productos}
-                        PD: Esta información no proviene del sistema venefoil, la misma es cargada manualmente todos los días.
-    
-                   `);
+            console.log('llegaste aca')
+            let respuestaFiltrada = resultado;
+            //console.log(respuestaFiltrada[0]['FECHATEXTO'])
+            //let fecha = new Date(respuestaFiltrada[0]['FECHATEXTO'])
+            // let semana= await obtenerSemana(fecha)
+            // console.log(semana)
+            let e1 = 0
+            let T1 = 0;
+            let T2 = 0;
+            let T3 = 0;
+            let TD = 0;
+            let TN = 0;
+            let productos = [];
+            let operadores = [];
+            respuestaFiltrada = respuestaFiltrada.filter((elemento) => elemento['id_maqempaque2'] == maquina && elemento['DIAMES'] == dia && elemento['MES'] == mes && elemento['Año'] == year && elemento['calidad'] == 1)
+            //    console.log(respuestaFiltrada)
+            //    console.log(maquina)
+            respuestaFiltrada.forEach(element => {
+                if (!productos.includes(element['NOMBRE_PROD'] + ' ' + element['ESPESOR'] + 'x' + element['ancho'] + 'mm')) {
+                    productos.push(element['NOMBRE_PROD'] + ' ' + element['ESPESOR'] + 'x' + element['ancho'] + 'mm')
                 }
-
-
-                // console.log({maquina,mes,dia,year})
+                if (!operadores.includes(element['operador'].toLowerCase())) {
+                    operadores.push(element['operador'].toLowerCase())
+                }
+                if (element['Turnos'] == 'T1') {
+                    T1 = T1 + element['peso_bovina'];
+                }
+                if (element['Turnos'] == 'T2') {
+                    T2 = T2 + element['peso_bovina'];
+                }
+                if (element['Turnos'] == 'T3') {
+                    T3 = T3 + element['peso_bovina'];
+                }
+                if (element['Turnos'] == 'TD') {
+                    TD = TD + element['peso_bovina'];
+                }
+                if (element['Turnos'] == 'TN') {
+                    TN = TN + element['peso_bovina'];
+                }
+                //?TOTAL
+                e1 = e1 + element['peso_bovina'];
             });
-            bot.sendMessage(chatId, `Fecha de la ultima actualización: ${fecha}`)
+            if (e1 <= 0) {
+                bot.sendMessage(chatId, `No hay produccion de calidad 1 para  ${maquina} en el dia ${dia}/${mes}/${year}`)
+            } else {
+                //let respuestaString = JSON.stringify(resultado)
+                bot.sendMessage(chatId,
+                    `-----------${'EREMAS'}-----------${dia}/${mes}/${year}-------
+
+`);
+
+            }
+
+
+            // console.log({maquina,mes,dia,year})
+            //? Nuevo
+            productos = [];
+            operadores = [];
+            respuestaFiltrada = resultado;
+            let e3 = 0
+            T1 = 0;
+            T2 = 0;
+            T3 = 0;
+            TD = 0;
+            TN = 0;
+            respuestaFiltrada = respuestaFiltrada.filter((elemento) => elemento['id_maqempaque2'] == maquina && elemento['DIAMES'] == dia && elemento['MES'] == mes && elemento['Año'] == year && elemento['calidad'] != 1)
+            respuestaFiltrada.forEach(element => {
+                if (!productos.includes(element['NOMBRE_PROD'] + ' ' + element['ESPESOR'] + 'x' + element['ancho'] + 'mm')) {
+                    productos.push(element['NOMBRE_PROD'] + ' ' + element['ESPESOR'] + 'x' + element['ancho'] + 'mm')
+                }
+                if (!operadores.includes(element['operador'].toLowerCase())) {
+                    operadores.push(element['operador'].toLowerCase())
+                }
+                if (element['Turnos'] == 'T1') {
+                    T1 = T1 + element['peso_bovina'];
+                }
+                if (element['Turnos'] == 'T2') {
+                    T2 = T2 + element['peso_bovina'];
+                }
+                if (element['Turnos'] == 'T3') {
+                    T3 = T3 + element['peso_bovina'];
+                }
+                if (element['Turnos'] == 'TD') {
+                    TD = TD + element['peso_bovina'];
+                }
+                if (element['Turnos'] == 'TN') {
+                    TN = TN + element['peso_bovina'];
+                }
+                //?TOTAL
+                e3 = e3 + element['peso_bovina'];
+            });
+            if (e3 <= 0) {
+                bot.sendMessage(chatId, `No hay desperdicio para ${maquina} en el dia ${dia}/${mes}/${year}`)
+            } else {
+                //let respuestaString = JSON.stringify(resultado)
+                bot.sendMessage(chatId,
+                    `-----------${maquina}-----------${dia}/${mes}/${year}-------
+               T1: ${Math.round(T1)} KG
+               T2: ${Math.round(T2)} KG
+               T3: ${Math.round(T3)} KG
+               TD: ${Math.round(TD)} KG
+               TN: ${Math.round(TN)} KG
+               TOTAL DESP: ${Math.round(e3)} KG
+               --------------------------------
+               Productos involucrados: ${productos}
+               ------------------------------
+               Operadores involucrados: ${operadores}
+   
+               PD: Este desperdicio es netamente del proceso, sin ajustes por consumo.
+               `);
+            }
+            // console.log({maquina,mes,dia,year})
         }
 
 
@@ -758,13 +793,7 @@ Operadores involucrados: ${operadores}
         const chatId = query.message.chat.id;
         const data = query.data;
         let fecha = Date;
-        try {
-       
-            fecha = await obtenerFechaDeUnArchivo(rutaInvRed);
-
-        } catch (error) {
-
-        }
+        fecha = await obtenerFechaDeUnArchivo(rutaInvRed);
 
 
         if (data === 'AL-SEMELC1') {

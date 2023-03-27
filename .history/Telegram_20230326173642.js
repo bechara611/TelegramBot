@@ -11,9 +11,9 @@ const rutaEremasRed = "L:/VFL BALANCE MP/BD EREMAS.xlsx"
 const token = '6270492397:AAERsqAbZwbLD73p1efZ8aw38eFky4YwRy0';
 const tokenPrueba2 = '5776165902:AAGWs7OUTqR1iZDpT1HepqvFhlE7R7E7qg8'
 //maquinas para la parte de erema
-let maquinas2 = ['SML EREMA', 'RECICLADORA 1', 'RECICLADORA 2']
+let maquinas2=['SML EREMA','RECICLADORA 1','RECICLADORA 2']
 // Crear un nuevo bot con el token proporcionado por BotFather
-const bot = new TelegramBot(token, { polling: true });
+const bot = new TelegramBot(tokenPrueba2, { polling: true });
 // let resultado = await leerArchivoExcel('./VFL QUERY SQL 2.xlsm');
 
 try {
@@ -39,7 +39,24 @@ try {
     let dia = ''
     let numeroSemana = null;
     const MENUMAQ = [
-       
+        [
+            {
+                text: 'RESUMEN GENERAL E1 POR DIA- EXTRUSIÓN',
+                callback_data: 'TODAS',
+            },
+        ],
+        [
+            {
+                text: 'RESUMEN GENERAL E1 POR SEMANA- EXTRUSIÓN',
+                callback_data: 'SEMANA',
+            },
+        ],
+        [
+            {
+                text: 'RESUMEN GENERAL RECICLAJE POR DIA',
+                callback_data: 'EREMAS',
+            },
+        ],
         [
             {
                 text: 'RH1',
@@ -80,24 +97,6 @@ try {
             {
                 text: 'MAKLAUS',
                 callback_data: 'REPESAR',
-            },
-        ],
-        [
-            {
-                text: 'RESUMEN GENERAL E1 POR DIA- EXT Y COR',
-                callback_data: 'TODAS',
-            },
-        ],
-        [
-            {
-                text: 'RESUMEN GENERAL E1 POR SEMANA- EXT Y COR',
-                callback_data: 'SEMANA',
-            },
-        ],
-        [
-            {
-                text: 'RESUMEN GENERAL RECICLAJE POR DIA',
-                callback_data: 'EREMAS',
             },
         ],
         [
@@ -295,7 +294,7 @@ try {
     bot.on('message', (msg) => {
         //? comprobar que si sea fecha lo que coloques
 
-        if (semana != 'SEMANA' && maquina != 'TODASEREMAS' && pulsoSemana === false && msg.text !== '/start' && msg.text.toUpperCase() !== '/START') {
+        if (semana != 'SEMANA' && maquina!='TODASEREMAS' && pulsoSemana === false && msg.text !== '/start' && msg.text.toUpperCase() !== '/START') {
             fecha = msg.text.split('-');
             dia = fecha[0]
             mes = fecha[1]
@@ -332,7 +331,7 @@ try {
                 pulso = false
             }
         }
-        if (semana == 'SEMANA' && maquina != 'TODASEREMAS' && pulsoSemana == true && msg.text !== '/start' && msg.text.toUpperCase() !== '/START') {
+        if (semana == 'SEMANA' && maquina!='TODASEREMAS' && pulsoSemana == true && msg.text !== '/start' && msg.text.toUpperCase() !== '/START') {
             numeroSemana = msg.text
             if (isNaN(numeroSemana) === true) {
                 numeroSemana = null
@@ -676,13 +675,12 @@ Operadores involucrados: ${operadores}
         }
         //TODO EREMAS
         if (data === '1EREMAS' && maquina === 'TODASEREMAS') {
-            let fecha = new Date();
-            bot.sendMessage(chatId, `Obteniendo información de las recicladoras... por favor, espere...`);
-            fecha = await obtenerFechaDeUnArchivo(rutaEremasRed);
-            let resultado = await leerArchivoExcel3(rutaEremasRed, 'BD_RECICLADO');
+            console.log('llegaste aca')
+            bot.sendMessage(msg.chat.id, `Obteniendo información de las recicladoras... por favo, espere`);
+            let resultado = await leerArchivoExcel3(rutaEremas, 'BD_RECICLADO');
             let respuestaFiltrada = [];
             respuestaFiltrada = resultado;
-           // console.log(respuestaFiltrada)
+            console.log(respuestaFiltrada)
             maquinas2.forEach(async maquinita => {
                 let respuestaFiltrada = resultado;
                 let e1 = 0
@@ -692,35 +690,32 @@ Operadores involucrados: ${operadores}
                 let TD = 0;
                 let TN = 0;
                 let productos = [];
-                let operadores = [];
-                respuestaFiltrada = respuestaFiltrada.filter((elemento) => elemento['MAQUINA'] == maquinita && elemento['DIA'] == dia && elemento['MES2'] == mes && elemento['AÑO'] == year)
-                  // console.log(respuestaFiltrada)
+                let operadores = [];//TODO RECUERDA PONER LA COLUMNA MES2 EN EL EXCEL
+                respuestaFiltrada = respuestaFiltrada.filter((elemento) => elemento['MAQUINA'] == maquinita && elemento['DIA'] == dia && elemento['MES2'] == mes && elemento['Año'] == year)
+                //    console.log(respuestaFiltrada)
                 //    console.log(maquina)
                 respuestaFiltrada.forEach(async element => {
                     if (!productos.includes(element['MATERIAL'])) {
-                        if (element['KG NETO'] > 0) {
-
-                            productos.push(element['MATERIAL'])
-                        }
+                        productos.push(element['MATERIAL'])
                     }
-
-                    if (element['TURNO'] == '1') {
-                        T1 = T1 + element['KG NETO'];
+                   
+                    if (element['Turnos'] == 'T1') {
+                        T1 = T1 + element['peso_bovina'];
                     }
-                    if (element['TURNO'] == '2') {
-                        T2 = T2 + element['KG NETO'];
+                    if (element['Turnos'] == 'T2') {
+                        T2 = T2 + element['peso_bovina'];
                     }
-                    if (element['TURNO'] == '3') {
-                        T3 = T3 + element['KG NETO'];
+                    if (element['Turnos'] == 'T3') {
+                        T3 = T3 + element['peso_bovina'];
                     }
-                    if (element['TURNO'] == 'D') {
-                        TD = TD + element['KG NETO'];
+                    if (element['Turnos'] == 'TD') {
+                        TD = TD + element['peso_bovina'];
                     }
-                    if (element['TURNO'] == 'N') {
-                        TN = TN + element['KG NETO'];
+                    if (element['Turnos'] == 'TN') {
+                        TN = TN + element['peso_bovina'];
                     }
                     //?TOTAL
-                    e1 = e1 + element['KG NETO'];
+                    e1 = e1 + element['peso_bovina'];
                 });
                 //let respuestaString = JSON.stringify(resultado)
                 setTimeout(() => {
@@ -729,25 +724,16 @@ Operadores involucrados: ${operadores}
                 if (e1 <= 0) {
                     await bot.sendMessage(chatId, `${maquinita}: 0 KG`)
                 } else {
-                    bot.sendMessage(chatId,
-                        `--${maquinita}---${dia}/${mes}/${year}-------
-                   T1: ${Math.round(T1)} KG
-                   T2: ${Math.round(T2)} KG
-                   T3: ${Math.round(T3)} KG
-                   TD: ${Math.round(TD)} KG
-                   TN: ${Math.round(TN)} KG
-                   TOTAL PROCESADO: ${Math.round(e1)} KG
-                   --------------------------------
-                   Productos involucrados: ${productos}
-                        PD: Esta información no proviene del sistema venefoil, la misma es cargada manualmente todos los días.
-    
-                   `);
+                    await bot.sendMessage(chatId,
+                        `-----------${EREMAS}-----------${dia}/${mes}/${year}-------
+                        ${productos}
+                        `);
                 }
 
 
                 // console.log({maquina,mes,dia,year})
             });
-            bot.sendMessage(chatId, `Fecha de la ultima actualización: ${fecha}`)
+
         }
 
 
@@ -759,11 +745,11 @@ Operadores involucrados: ${operadores}
         const data = query.data;
         let fecha = Date;
         try {
-       
-            fecha = await obtenerFechaDeUnArchivo(rutaInvRed);
-
+            //TODO ACTIVAR 
+            //fecha = await obtenerFechaDeUnArchivo(rutaInvRed);
+            
         } catch (error) {
-
+            
         }
 
 

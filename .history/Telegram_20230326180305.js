@@ -13,7 +13,7 @@ const tokenPrueba2 = '5776165902:AAGWs7OUTqR1iZDpT1HepqvFhlE7R7E7qg8'
 //maquinas para la parte de erema
 let maquinas2 = ['SML EREMA', 'RECICLADORA 1', 'RECICLADORA 2']
 // Crear un nuevo bot con el token proporcionado por BotFather
-const bot = new TelegramBot(token, { polling: true });
+const bot = new TelegramBot(tokenPrueba2, { polling: true });
 // let resultado = await leerArchivoExcel('./VFL QUERY SQL 2.xlsm');
 
 try {
@@ -678,8 +678,8 @@ Operadores involucrados: ${operadores}
         if (data === '1EREMAS' && maquina === 'TODASEREMAS') {
             let fecha = new Date();
             bot.sendMessage(chatId, `Obteniendo información de las recicladoras... por favor, espere...`);
-            fecha = await obtenerFechaDeUnArchivo(rutaEremasRed);
-            let resultado = await leerArchivoExcel3(rutaEremasRed, 'BD_RECICLADO');
+            fecha = await obtenerFechaDeUnArchivo(rutaEremas);
+            let resultado = await leerArchivoExcel3(rutaEremas, 'BD_RECICLADO');
             let respuestaFiltrada = [];
             respuestaFiltrada = resultado;
            // console.log(respuestaFiltrada)
@@ -692,7 +692,7 @@ Operadores involucrados: ${operadores}
                 let TD = 0;
                 let TN = 0;
                 let productos = [];
-                let operadores = [];
+                let operadores = [];//TODO RECUERDA PONER LA COLUMNA MES2 EN EL EXCEL
                 respuestaFiltrada = respuestaFiltrada.filter((elemento) => elemento['MAQUINA'] == maquinita && elemento['DIA'] == dia && elemento['MES2'] == mes && elemento['AÑO'] == year)
                   // console.log(respuestaFiltrada)
                 //    console.log(maquina)
@@ -730,7 +730,7 @@ Operadores involucrados: ${operadores}
                     await bot.sendMessage(chatId, `${maquinita}: 0 KG`)
                 } else {
                     bot.sendMessage(chatId,
-                        `--${maquinita}---${dia}/${mes}/${year}-------
+                        `-----------${maquinita}-----------${dia}/${mes}/${year}-------
                    T1: ${Math.round(T1)} KG
                    T2: ${Math.round(T2)} KG
                    T3: ${Math.round(T3)} KG
@@ -759,8 +759,8 @@ Operadores involucrados: ${operadores}
         const data = query.data;
         let fecha = Date;
         try {
-       
-            fecha = await obtenerFechaDeUnArchivo(rutaInvRed);
+            //TODO ACTIVAR 
+            //fecha = await obtenerFechaDeUnArchivo(rutaInvRed);
 
         } catch (error) {
 
