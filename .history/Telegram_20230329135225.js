@@ -745,7 +745,7 @@ Operadores involucrados: ${operadores}
                 let TN = 0;
                 let productos = [];
                 let operadores = [];
-                respuestaFiltrada = respuestaFiltrada.filter((elemento) => elemento['id_maqempaque2'] == maquinita && elemento['MES'] == numeroMes  && elemento['Año'] == '2023' && elemento['calidad'] == 1)
+                respuestaFiltrada = respuestaFiltrada.filter((elemento) => elemento['id_maqempaque2'] == maquinita && elemento['MES'] == numeroMes && elemento['calidad'] == 1)
                 //    console.log(respuestaFiltrada)
                 //    console.log(maquina)
 
