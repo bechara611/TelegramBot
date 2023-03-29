@@ -233,7 +233,7 @@ try {
             pulsoMes=true
             // Ejecuta la acción que deseas realizar cuando el usuario hace clic en "Ejecutar acción"
             //bot.sendMessage(chatId, `Seleccionaste ${maquina}`);
-            bot.sendMessage(chatId, `Ahora escriba por favor el mes y año, en formato mm-yyyy`);
+            bot.sendMessage(chatId, `Ahora escriba por favor el mes a buscar`);
 
 
         }
@@ -384,42 +384,38 @@ try {
         //?parte por mes
         if (mesMenu == 'MES' && maquina != 'TODASEREMAS' && pulsoMes == true && msg.text !== '/start' && msg.text.toUpperCase() !== '/START') {
             numeroMes = msg.text
-
-            //TODO
-            fecha = msg.text.split('-');
-            mes = fecha[1]
-            year = fecha[2]
-            if ( isNaN(mes) === true || isNaN(year) === true || mes > 12 || year < 2018) {
+            if(numeroMes.length<=1){
                 numeroMes = null
-                mes = null
-                year = null;
                 if (pulso === true && maquina && msg.text !== '/start' && msg.text.toUpperCase() !== '/START') {
-                    bot.sendMessage(msg.chat.id, `Tu mes y año seleccionado es incorrecto, 
-                    por favor, vuelva manten el formato de mm-yyyy`)
+                    bot.sendMessage(msg.chat.id, `Tu mes seleccionado es incorrecto, vuelva a intentarlo. Recuerda que el formato es "dd" Ejemplo: Marzo = 03, Abril=04`)
                     return
 
-                }}
-                if (maquina && fecha.length === 2  && mes && year && mes <= 12) {
-                    bot.sendMessage(msg.chat.id, '----', {
-                        reply_markup: {
-                            inline_keyboard: [
-                                [
-                                    {
-                                        text: `Pulsa aca para generar el reporte del mes  ${numeroMes} `,
-                                        callback_data: '4'
-                                    }
-                                ]
-                            ]
-                        }
-                    });
-                    //  console.log(numeroSemana)
-                    mesMenu = ''
-    
                 }
-            //TODO
-      
-              
-            
+            }
+            if (isNaN(numeroMes) === true) {
+                numeroMes = null
+                if (pulso === true && maquina && msg.text !== '/start' && msg.text.toUpperCase() !== '/START') {
+                    bot.sendMessage(msg.chat.id, `Tu mes seleccionado es incorrecto, vuelva a intentarlo. Recuerda que el formato es "dd" Ejemplo: Marzo = 03, Abril=04`)
+                    return
+
+                }
+            } else {
+                bot.sendMessage(msg.chat.id, '----', {
+                    reply_markup: {
+                        inline_keyboard: [
+                            [
+                                {
+                                    text: `Pulsa aca para generar el reporte del mes  ${numeroMes} `,
+                                    callback_data: '4'
+                                }
+                            ]
+                        ]
+                    }
+                });
+                //  console.log(numeroSemana)
+                mesMenu = ''
+
+            }
 
         }
         //TODO EREMAS 1
