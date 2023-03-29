@@ -233,7 +233,7 @@ try {
             pulsoMes=true
             // Ejecuta la acción que deseas realizar cuando el usuario hace clic en "Ejecutar acción"
             //bot.sendMessage(chatId, `Seleccionaste ${maquina}`);
-            bot.sendMessage(chatId, `Ahora escriba por favor el mes y año, en formato mm-yyyy, Ejemplo: mes de Abril del 2023 = 04-2023`);
+            bot.sendMessage(chatId, `Ahora escriba por favor el mes y año, en formato mm-yyyy`);
 
 
         }
@@ -389,13 +389,13 @@ try {
             fecha = msg.text.split('-');
             mes = fecha[0]
             year = fecha[1]
-            if ( isNaN(mes) === true || isNaN(year) === true || mes > 12 || year < 2018 || mes.length>1) {
+            if ( isNaN(mes) === true || isNaN(year) === true || mes > 12 || year < 2018) {
                 numeroMes = null
                 mes = null
                 year = null;
                 if (pulso === true && maquina && msg.text !== '/start' && msg.text.toUpperCase() !== '/START') {
                     bot.sendMessage(msg.chat.id, `Tu mes y año seleccionado es incorrecto, 
-                    por favor, vuelva manten el formato de mm-yyyy, Ejemplo: mes de Abril del 2023 = 04-2023`)
+                    por favor, vuelva manten el formato de mm-yyyy`)
                     return
 
                 }}

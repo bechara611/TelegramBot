@@ -389,7 +389,7 @@ try {
             fecha = msg.text.split('-');
             mes = fecha[0]
             year = fecha[1]
-            if ( isNaN(mes) === true || isNaN(year) === true || mes > 12 || year < 2018 || mes.length>1) {
+            if ( isNaN(mes) === true || isNaN(year) === true || mes > 12 || year < 2018) {
                 numeroMes = null
                 mes = null
                 year = null;
