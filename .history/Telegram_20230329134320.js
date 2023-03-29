@@ -99,7 +99,7 @@ try {
         ],
         [
             {
-                text: 'RESUMEN GENERAL E1 POR MES- EXTRUSIÓN',
+                text: 'RESUMEN GENERAL E1 POR SEMANA- EXTRUSIÓN',
                 callback_data: 'MES',
             },
         ],

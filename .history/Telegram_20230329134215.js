@@ -13,7 +13,7 @@ const tokenPrueba2 = '5776165902:AAGWs7OUTqR1iZDpT1HepqvFhlE7R7E7qg8'
 //maquinas para la parte de erema
 let maquinas2 = ['SML EREMA', 'RECICLADORA 1', 'RECICLADORA 2']
 // Crear un nuevo bot con el token proporcionado por BotFather
-const bot = new TelegramBot(tokenPrueba2, { polling: true });
+const bot = new TelegramBot(token, { polling: true });
 // let resultado = await leerArchivoExcel('./VFL QUERY SQL 2.xlsm');
 
 try {
@@ -99,7 +99,7 @@ try {
         ],
         [
             {
-                text: 'RESUMEN GENERAL E1 POR MES- EXTRUSIÓN',
+                text: 'RESUMEN GENERAL E1 POR SEMANA- EXTRUSIÓN',
                 callback_data: 'MES',
             },
         ],
@@ -737,7 +737,7 @@ Operadores involucrados: ${operadores}
                 let TN = 0;
                 let productos = [];
                 let operadores = [];
-                respuestaFiltrada = respuestaFiltrada.filter((elemento) => elemento['id_maqempaque2'] == maquinita && elemento['MES'] == numeroMes && elemento['calidad'] == 1)
+                respuestaFiltrada = respuestaFiltrada.filter((elemento) => elemento['id_maqempaque2'] == maquinita && elemento['mes'] == numeroMes && elemento['calidad'] == 1)
                 //    console.log(respuestaFiltrada)
                 //    console.log(maquina)
 
@@ -776,7 +776,7 @@ Operadores involucrados: ${operadores}
                     await bot.sendMessage(chatId, `${maquinita}: 0 KG`)
                 } else {
                     await bot.sendMessage(chatId,
-                        `-----------${maquinita}-----------mes ${numeroMes}-------
+                        `-----------${maquinita}-----------SEMANA ${numeroSemana}-------
                         T1: ${Math.round(T1)} KG
                         T2: ${Math.round(T2)} KG
                         T3: ${Math.round(T3)} KG

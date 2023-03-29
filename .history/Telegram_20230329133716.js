@@ -13,7 +13,7 @@ const tokenPrueba2 = '5776165902:AAGWs7OUTqR1iZDpT1HepqvFhlE7R7E7qg8'
 //maquinas para la parte de erema
 let maquinas2 = ['SML EREMA', 'RECICLADORA 1', 'RECICLADORA 2']
 // Crear un nuevo bot con el token proporcionado por BotFather
-const bot = new TelegramBot(tokenPrueba2, { polling: true });
+const bot = new TelegramBot(token, { polling: true });
 // let resultado = await leerArchivoExcel('./VFL QUERY SQL 2.xlsm');
 
 try {
@@ -99,7 +99,7 @@ try {
         ],
         [
             {
-                text: 'RESUMEN GENERAL E1 POR MES- EXTRUSIÓN',
+                text: 'RESUMEN GENERAL E1 POR SEMANA- EXTRUSIÓN',
                 callback_data: 'MES',
             },
         ],
@@ -715,76 +715,6 @@ Operadores involucrados: ${operadores}
                         TOTAL E1: ${Math.round(e1)} KG
                         ------------------------------
                         Productos involucrados: ${productos}
-                        `);
-                }
-
-
-                // console.log({maquina,mes,dia,year})
-            });
-
-
-        }
-         //?esta seccion del menu 3 es para mostrar todo por mes se le asigno el numero 4
-         if (data === '4') {
-            mesMenu = '';
-            maquinas.forEach(async maquinita => {
-                let respuestaFiltrada = resultado;
-                let e1 = 0
-                let T1 = 0;
-                let T2 = 0;
-                let T3 = 0;
-                let TD = 0;
-                let TN = 0;
-                let productos = [];
-                let operadores = [];
-                respuestaFiltrada = respuestaFiltrada.filter((elemento) => elemento['id_maqempaque2'] == maquinita && elemento['MES'] == numeroMes && elemento['calidad'] == 1)
-                //    console.log(respuestaFiltrada)
-                //    console.log(maquina)
-
-                respuestaFiltrada.forEach(async element => {
-
-                    if (!productos.includes(element['NOMBRE_PROD'] + ' ' + element['ESPESOR'] + 'x' + element['ancho'] + 'mm')) {
-                        productos.push(element['NOMBRE_PROD'] + ' ' + element['ESPESOR'] + 'x' + element['ancho'] + 'mm')
-                    }
-                    if (!operadores.includes(element['operador'].toLowerCase())) {
-                        operadores.push(element['operador'].toLowerCase())
-                    }
-                    if (element['Turnos'] == 'T1') {
-                        T1 = T1 + element['peso_bovina'];
-                    }
-                    if (element['Turnos'] == 'T2') {
-                        T2 = T2 + element['peso_bovina'];
-                    }
-                    if (element['Turnos'] == 'T3') {
-                        T3 = T3 + element['peso_bovina'];
-                    }
-                    if (element['Turnos'] == 'TD') {
-                        TD = TD + element['peso_bovina'];
-                    }
-                    if (element['Turnos'] == 'TN') {
-                        TN = TN + element['peso_bovina'];
-                    }
-                    //?TOTAL
-                    e1 = e1 + element['peso_bovina'];
-                });
-
-                //let respuestaString = JSON.stringify(resultado)
-                setTimeout(() => {
-
-                }, 1000);
-                if (e1 <= 0) {
-                    await bot.sendMessage(chatId, `${maquinita}: 0 KG`)
-                } else {
-                    await bot.sendMessage(chatId,
-                        `-----------${maquinita}-----------mes ${numeroMes}-------
-                        T1: ${Math.round(T1)} KG
-                        T2: ${Math.round(T2)} KG
-                        T3: ${Math.round(T3)} KG
-                        TD: ${Math.round(TD)} KG
-                        TN: ${Math.round(TN)} KG
-                        TOTAL E1: ${Math.round(e1)} KG
-                        ------------------------------
-                        Productos involucrados: ${''}
                         `);
                 }
 
