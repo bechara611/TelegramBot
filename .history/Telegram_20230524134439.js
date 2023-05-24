@@ -99,7 +99,7 @@ try {
         ],
         [
             {
-                text: 'RESUMEN GENERAL E1 POR SEMANA- EXTRUSIÓN',
+                text: 'RESUMEN GENERAL E1 POR MES- EXTRUSIÓN',
                 callback_data: 'MES',
             },
         ],
@@ -233,7 +233,7 @@ try {
             pulsoMes=true
             // Ejecuta la acción que deseas realizar cuando el usuario hace clic en "Ejecutar acción"
             //bot.sendMessage(chatId, `Seleccionaste ${maquina}`);
-            bot.sendMessage(chatId, `Ahora escriba por favor el mes a buscar`);
+            bot.sendMessage(chatId, `Ahora escriba por favor el mes y año, en formato mm-yyyy, Ejemplo: mes de Abril del 2023 = 04-2023`);
 
 
         }
@@ -260,6 +260,12 @@ try {
                             {
                                 text: 'AL-SEMELC2',
                                 callback_data: 'AL-SEMELC2'
+                            }
+                        ],
+                        [
+                            {
+                                text: 'AL-PRUEBAS',
+                                callback_data: 'AL-PRUEBAS'
                             }
                         ],
                         [
@@ -384,30 +390,42 @@ try {
         //?parte por mes
         if (mesMenu == 'MES' && maquina != 'TODASEREMAS' && pulsoMes == true && msg.text !== '/start' && msg.text.toUpperCase() !== '/START') {
             numeroMes = msg.text
-            if (isNaN(numeroMes) === true) {
+
+            //TODO
+            fecha = msg.text.split('-');
+            mes = fecha[0]
+            year = fecha[1]
+            if ( isNaN(mes) === true || isNaN(year) === true || mes > 12 || year < 2018 || mes.length==1) {
                 numeroMes = null
+                mes = null
+                year = null;
                 if (pulso === true && maquina && msg.text !== '/start' && msg.text.toUpperCase() !== '/START') {
-                    bot.sendMessage(msg.chat.id, `Tu mes seleccionada es incorrecta, vuelva a intentarlo`)
+                    bot.sendMessage(msg.chat.id, `Tu mes y año seleccionado es incorrecto, 
+                    por favor, vuelva manten el formato de mm-yyyy, Ejemplo: mes de Abril del 2023 = 04-2023`)
                     return
 
-                }
-            } else {
-                bot.sendMessage(msg.chat.id, '----', {
-                    reply_markup: {
-                        inline_keyboard: [
-                            [
-                                {
-                                    text: `Pulsa aca para generar el reporte del mes  ${numeroMes} `,
-                                    callback_data: '4'
-                                }
+                }}
+                if ( fecha.length === 2  && mes && year && mes <= 12) {
+                    bot.sendMessage(msg.chat.id, '----', {
+                        reply_markup: {
+                            inline_keyboard: [
+                                [
+                                    {
+                                        text: `Pulsa aca para generar el reporte del mes  ${numeroMes} `,
+                                        callback_data: '4'
+                                    }
+                                ]
                             ]
-                        ]
-                    }
-                });
-                //  console.log(numeroSemana)
-                mesMenu = ''
-
-            }
+                        }
+                    });
+                    //  console.log(numeroSemana)
+                    mesMenu = ''
+    
+                }
+            //TODO
+      
+              
+            
 
         }
         //TODO EREMAS 1
@@ -724,6 +742,76 @@ Operadores involucrados: ${operadores}
 
 
         }
+         //?esta seccion del menu 3 es para mostrar todo por mes se le asigno el numero 4
+         if (data === '4') {
+            mesMenu = '';
+            maquinas.forEach(async maquinita => {
+                let respuestaFiltrada = resultado;
+                let e1 = 0
+                let T1 = 0;
+                let T2 = 0;
+                let T3 = 0;
+                let TD = 0;
+                let TN = 0;
+                let productos = [];
+                let operadores = [];
+                respuestaFiltrada = respuestaFiltrada.filter((elemento) => elemento['id_maqempaque2'] == maquinita && elemento['MES'] == mes  && elemento['Año'] == year && elemento['calidad'] == 1)
+                //    console.log(respuestaFiltrada)
+                //    console.log(maquina)
+
+                respuestaFiltrada.forEach(async element => {
+
+                    if (!productos.includes(element['NOMBRE_PROD'] + ' ' + element['ESPESOR'] + 'x' + element['ancho'] + 'mm')) {
+                        productos.push(element['NOMBRE_PROD'] + ' ' + element['ESPESOR'] + 'x' + element['ancho'] + 'mm')
+                    }
+                    if (!operadores.includes(element['operador'].toLowerCase())) {
+                        operadores.push(element['operador'].toLowerCase())
+                    }
+                    if (element['Turnos'] == 'T1') {
+                        T1 = T1 + element['peso_bovina'];
+                    }
+                    if (element['Turnos'] == 'T2') {
+                        T2 = T2 + element['peso_bovina'];
+                    }
+                    if (element['Turnos'] == 'T3') {
+                        T3 = T3 + element['peso_bovina'];
+                    }
+                    if (element['Turnos'] == 'TD') {
+                        TD = TD + element['peso_bovina'];
+                    }
+                    if (element['Turnos'] == 'TN') {
+                        TN = TN + element['peso_bovina'];
+                    }
+                    //?TOTAL
+                    e1 = e1 + element['peso_bovina'];
+                });
+
+                //let respuestaString = JSON.stringify(resultado)
+                setTimeout(() => {
+
+                }, 1000);
+                if (e1 <= 0) {
+                    await bot.sendMessage(chatId, `${maquinita}: 0 KG`)
+                } else {
+                    await bot.sendMessage(chatId,
+                        `-----------${maquinita}-----------mes ${numeroMes}-------
+                        T1: ${Math.round(T1)} KG
+                        T2: ${Math.round(T2)} KG
+                        T3: ${Math.round(T3)} KG
+                        TD: ${Math.round(TD)} KG
+                        TN: ${Math.round(TN)} KG
+                        TOTAL E1: ${Math.round(e1)} KG
+                        ------------------------------
+                     
+                        `);
+                }
+
+
+                // console.log({maquina,mes,dia,year})
+            });
+
+
+        }
         //TODO EREMAS
         if (data === '1EREMAS' && maquina === 'TODASEREMAS') {
             let fecha = new Date();
@@ -827,6 +915,14 @@ Operadores involucrados: ${operadores}
             bot.sendMessage(chatId, `Fecha de la ultima actualización: ${fecha}`)
         }
         if (data === 'AL-SEMELC2') {
+            const almacen = await obtenerInventario(data)
+            if (almacen) {
+                bot.sendMessage(chatId, '<code>' + almacen + '</code>', { parse_mode: 'HTML' });
+            } else {
+                bot.sendMessage(chatId, 'ALMACEN EN 0');
+            }
+            bot.sendMessage(chatId, `Fecha de la ultima actualización: ${fecha}`)
+        }  if (data === 'AL-PRUEBAS') {
             const almacen = await obtenerInventario(data)
             if (almacen) {
                 bot.sendMessage(chatId, '<code>' + almacen + '</code>', { parse_mode: 'HTML' });

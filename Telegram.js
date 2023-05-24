@@ -264,6 +264,12 @@ try {
                         ],
                         [
                             {
+                                text: 'AL-PRUEBAS',
+                                callback_data: 'AL-PRUEBAS'
+                            }
+                        ],
+                        [
+                            {
                                 text: 'AL-T05',
                                 callback_data: 'AL-T05'
                             }
@@ -909,6 +915,14 @@ Operadores involucrados: ${operadores}
             bot.sendMessage(chatId, `Fecha de la ultima actualización: ${fecha}`)
         }
         if (data === 'AL-SEMELC2') {
+            const almacen = await obtenerInventario(data)
+            if (almacen) {
+                bot.sendMessage(chatId, '<code>' + almacen + '</code>', { parse_mode: 'HTML' });
+            } else {
+                bot.sendMessage(chatId, 'ALMACEN EN 0');
+            }
+            bot.sendMessage(chatId, `Fecha de la ultima actualización: ${fecha}`)
+        }  if (data === 'AL-PRUEBAS') {
             const almacen = await obtenerInventario(data)
             if (almacen) {
                 bot.sendMessage(chatId, '<code>' + almacen + '</code>', { parse_mode: 'HTML' });
